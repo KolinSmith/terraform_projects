@@ -71,7 +71,7 @@ resource "proxmox_vm_qemu" "kube_server" {
 }
 
 resource "proxmox_vm_qemu" "kube_agent" {
-  count       = 2
+  count       = 3
   name        = "kube-agent-0${count.index + 1}"
   target_node = "discovery"
   vmid        = "50${count.index + 1}"
@@ -119,9 +119,9 @@ resource "proxmox_vm_qemu" "kube_agent" {
   #   EOF
 }
 
-resource "proxmox_vm_qemu" "kube_storage" {
+resource "proxmox_vm_qemu" "kube_mysql" {
   count       = 1
-  name        = "kube-storage-0${count.index + 1}"
+  name        = "kube-mysql-0${count.index + 1}"
   target_node = "discovery"
   vmid        = "60${count.index + 1}"
 
@@ -162,6 +162,55 @@ resource "proxmox_vm_qemu" "kube_storage" {
   }
 
   ipconfig0 = "ip=192.168.9.15${count.index + 1}/24,gw=${var.default_gw}"
+  #   ipconfig1 = "ip=192.168.9.16${count.index + 1}/24"
+  #   sshkeys = <<EOF
+  #   ${var.ssh_key}
+  #   EOF
+}
+
+resource "proxmox_vm_qemu" "kube_haproxy" {
+  count       = 1
+  name        = "kube-haproxy-0${count.index + 1}"
+  target_node = "discovery"
+  vmid        = "70${count.index + 1}"
+
+  clone = var.template_name
+
+  agent    = 1
+  os_type  = "cloud-init"
+  cores    = 2
+  sockets  = 1
+  cpu      = "host"
+  memory   = 4096
+  scsihw   = "virtio-scsi-pci"
+  bootdisk = "scsi0"
+
+  disk {
+    slot    = 0
+    size    = "10G"
+    type    = "scsi"
+    storage = "storage"
+    #storage_type = "zfspool"
+    iothread = 1
+  }
+
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+
+  #   network {
+  #     model  = "virtio"
+  #     bridge = "vmbr17"
+  #   }
+
+  lifecycle {
+    ignore_changes = [
+      network,
+    ]
+  }
+
+  ipconfig0 = "ip=192.168.9.16${count.index + 1}/24,gw=${var.default_gw}"
   #   ipconfig1 = "ip=192.168.9.16${count.index + 1}/24"
   #   sshkeys = <<EOF
   #   ${var.ssh_key}
