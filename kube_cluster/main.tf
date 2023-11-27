@@ -19,7 +19,7 @@ resource "proxmox_vm_qemu" "kube_server" {
   name  = "kube-server-0${count.index + 1}"
   #target_node = "discovery"
   target_node = var.proxmox_host
-  #this set the VM ID in Proxmox (for example: "Virtual Machine 100 (test-vm-1) on node 'discovery'"")
+  #this set the VM ID in Proxmox (for example: "Virtual Machine 400 (test-vm-1) on node 'discovery'"")
   vmid = "40${count.index + 1}"
 
   clone = var.template_name

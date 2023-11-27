@@ -44,7 +44,7 @@ EOF
 data "template_file" "user_data" {
   count    = var.vm_count
   template = file("${path.module}/files/user_data.cfg")
-  vars     = {
+  vars = {
     pubkey   = file(pathexpand("~/.ssh/id_rsa.pub"))
     hostname = "vm-${count.index}"
     fqdn     = "vm-${count.index}.${var.domain_name}"
@@ -60,9 +60,9 @@ resource "null_resource" "cloud_init_config_files" {
   count = var.vm_count
   connection {
     type     = "ssh"
-    user     = "${var.pve_user}"
-    password = "${var.pve_password}"
-    host     = "${var.pve_host}"
+    user     = var.pve_user
+    password = var.pve_password
+    host     = var.pve_host
   }
 
   provisioner "file" {
@@ -109,7 +109,7 @@ EOF
     In this example each VM has its own config file, previously generated and uploaded to
     the snippets folder in the local storage in the Proxmox VE server.
   */
-  cicustom                = "user=local:snippets/user_data_vm-${count.index}.yml"
+  cicustom = "user=local:snippets/user_data_vm-${count.index}.yml"
   /* Create the Cloud-Init drive on the "local-lvm" storage */
   cloudinit_cdrom_storage = "local-lvm"
 
@@ -131,27 +131,27 @@ resource "proxmox_vm_qemu" "preprovision-test" {
   # The destination resource pool for the new VM
   pool = "pool0"
 
-  cores    = 3
-  sockets  = 1
+  cores   = 3
+  sockets = 1
   # Same CPU as the Physical host, possible to add cpu flags
   # Ex: "host,flags=+md-clear;+pcid;+spec-ctrl;+ssbd;+pdpe1gb"
-  cpu      = "host"
-  numa     = false
-  memory   = 2560
-  scsihw   = "lsi"
+  cpu    = "host"
+  numa   = false
+  memory = 2560
+  scsihw = "lsi"
   # Boot from hard disk (c), CD-ROM (d), network (n)
-  boot     = "cdn"
+  boot = "cdn"
   # It's possible to add this type of material and use it directly
   # Possible values are: network,disk,cpu,memory,usb
-  hotplug  = "network,disk,usb"
+  hotplug = "network,disk,usb"
   # Default boot disk
   bootdisk = "virtio0"
   # HA, you need to use a shared disk for this feature (ex: rbd)
-  hastate  = ""
+  hastate = ""
 
   #Display
   vga {
-    type   = "std"
+    type = "std"
     #Between 4 and 512, ignored if type is defined to serial
     memory = 4
   }
