@@ -4,5 +4,6 @@
     "terraform.tfvars.example",
     ".terraform/",
     "*.tfstate",
-    "*.tfstate.backup"
+    "*.tfstate.backup",
+    ".terraform.lock.hcl"
   ]
