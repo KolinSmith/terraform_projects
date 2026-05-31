@@ -44,7 +44,7 @@ resource "proxmox_virtual_environment_vm" "k3s" {
 
   cpu {
     cores = each.value.cores
-    type  = "x86-64-v2-AES"
+    type  = "x86-64-v2"
   }
 
   memory {
@@ -65,6 +65,7 @@ resource "proxmox_virtual_environment_vm" "k3s" {
   }
 
   initialization {
+    datastore_id = var.storage_pool
     ip_config {
       ipv4 {
         address = "${each.value.ip}/24"
