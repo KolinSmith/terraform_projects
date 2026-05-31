@@ -1,0 +1,4 @@
+# Copy to terraform.tfvars and fill in real values (never commit terraform.tfvars)
+proxmox_endpoint  = "https://192.168.9.9:8006/api2/json"
+proxmox_api_token = "terraform-prov@pve!terraform=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+ssh_public_key    = "ssh-ed25519 AAAA... dax@voyager"
