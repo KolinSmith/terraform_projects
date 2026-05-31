@@ -1,0 +1,8 @@
+[allowlist]
+  description = "Exclude Terraform state, example files, and provider cache"
+  paths = [
+    "terraform.tfvars.example",
+    ".terraform/",
+    "*.tfstate",
+    "*.tfstate.backup"
+  ]
