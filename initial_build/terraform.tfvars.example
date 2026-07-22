@@ -1,0 +1,3 @@
+# Copy to terraform.tfvars and fill in real values (never commit terraform.tfvars)
+pm_api_token_id     = "dax@pam!dax_token=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+pm_api_token_secret = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
