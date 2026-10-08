@@ -11,9 +11,12 @@ variable "default_gw" {
 }
 
 variable "pm_api_token_id" {
-  default = "terraform-prov@pve!terraform" #"dax@pam!dax_token"
+  description = "Proxmox API token ID (format: user@realm!tokenid)"
+  type        = string
 }
 
 variable "pm_api_token_secret" {
-  default = "88ff3e5f-8dd2-46a7-83e6-19b3a2f06e73" #"f91733b7-8128-493d-8d52-7634213a3b75"
+  description = "Proxmox API token secret"
+  type        = string
+  sensitive   = true
 }
