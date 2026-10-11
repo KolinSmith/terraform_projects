@@ -115,7 +115,7 @@ jobs:
 
       - name: Post stats comment
         env:
-          GH_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_KEY }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPO: ${{ github.repository }}
           API_BASE: ${{ github.server_url }}/api/v1
