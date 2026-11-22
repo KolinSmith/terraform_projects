@@ -33,6 +33,10 @@ resource "proxmox_virtual_environment_vm" "k3s" {
   node_name = var.proxmox_node
   vm_id     = each.value.vmid
 
+  # The k3s VMs stay off unless started by hand. The provider defaults on_boot to true, which would
+  # re-enable autostart on the next apply.
+  on_boot = false
+
   clone {
     vm_id = var.template_vm_id
     full  = true
@@ -79,6 +83,7 @@ resource "proxmox_virtual_environment_vm" "k3s" {
   }
 
   lifecycle {
-    ignore_changes = [initialization]
+    # started: power state is controlled by hand (qm start/stop), never by apply.
+    ignore_changes = [initialization, started]
   }
 }
